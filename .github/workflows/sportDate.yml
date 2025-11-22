@@ -49,13 +49,19 @@ jobs:
     needs: docker-build
 
     steps:
-          - name: Deploy to Production EC2 (Docker Hub)
-            uses: appleboy/ssh-action@v1.2.3
-            env:
+      - name: Show GitHub Actions runner IP (for EC2 security group)
+        run: |
+              echo "=== GitHub Actions Runner Public IP ==="
+              curl -s https://checkip.amazonaws.com || curl -s https://api.ipify.org
+              echo "========================================"
+              echo "Add this IP (or /32) to your EC2 security group inbound rule for port 22"
+      - name: Deploy to Production EC2 (Docker Hub)
+        uses: appleboy/ssh-action@v1.2.3
+        env:
               DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
               IMAGE_TAG: ${{ github.sha }}
               PROFILE: prod
-            with:
+        with:
               host: ${{ secrets.EC2_PROD_HOST }}          # e.g. ec2-xx-xx-xx-xx.eu-west-1.compute.amazonaws.com
               username: ${{ secrets.EC2_PROD_USER }}      # usually "ubuntu" on Ubuntu AMI
               key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}     # full content of your .pem file
