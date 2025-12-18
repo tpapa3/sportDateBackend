@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e  # Exit on error
 
 export FRONTEND_URL=$(aws ssm get-parameter --name "/prod/FRONTEND_URL" --query "Parameter.Value" --output text)
