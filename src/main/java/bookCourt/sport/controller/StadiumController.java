@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 @RestController
-@RequestMapping("/backend/stadiums")
+@RequestMapping("/api/stadiums")
 public class StadiumController {
 
     private final StadiumService stadiumService;
